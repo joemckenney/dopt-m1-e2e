@@ -2,20 +2,89 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
-import { DoptProvider, Blocks } from "@dopt/react";
+import { DoptProvider, useDopt, withDopt, Blocks } from "@dopt/react";
+
+function DocumentationBlock() {
+  const [{ active, started }, { complete, start }] = useDopt(
+    "ZVSR64jQC7cM6TAjOl79V"
+  );
+  if (active && !started) {
+    start();
+  }
+
+  return (
+    active && (
+      <a onClick={complete} className={styles.card}>
+        <h2>Documentation &rarr;</h2>
+        <p>Find in-depth information about Next.js features and API.</p>
+      </a>
+    )
+  );
+}
+
+function LearnBlock() {
+  const [{ active }, { complete }] = useDopt("cDMdbFr0YAqXXIvv0INyq");
+
+  return (
+    active && (
+      <a onClick={complete} className={styles.card}>
+        <h2>Learn &rarr;</h2>
+        <p>Learn about Next.js in an interactive course with quizzes!</p>
+      </a>
+    )
+  );
+}
+
+function FindYourNextFriends({ block, methods }) {
+  return (
+    block.active && (
+      <a onClick={methods.complete} className={styles.card}>
+        <h2>Find Friends &rarr;</h2>
+        <p>Join our shitty social network to find your next set of friends!</p>
+      </a>
+    )
+  );
+}
+
+const FindYourNextFriendsWithDopt = withDopt(
+  FindYourNextFriends,
+  "sBrBcVyhPMyo4MMVs2rcK"
+);
 
 export default function Home() {
+  /*
   const blocks: Blocks = {
-    ZVSR64jQC7cM6TAjOl79V: {},
-    cDMdbFr0YAqXXIvv0INyq: {},
+    ZVSR64jQC7cM6TAjOl79V: {
+      active: false,
+      started: false,
+      completed: false,
+      stopped: false,
+      exited: false,
+      uuid: "ZVSR64jQC7cM6TAjOl79V",
+    },
+    cDMdbFr0YAqXXIvv0INyq: {
+      active: false,
+      started: false,
+      completed: false,
+      stopped: false,
+      exited: false,
+      uuid: "cDMdbFr0YAqXXIvv0INyq",
+    },
+    sBrBcVyhPMyo4MMVs2rcK: {
+      active: true,
+      started: false,
+      completed: false,
+      stopped: false,
+      exited: false,
+      uuid: "sBrBcVyhPMyo4MMVs2rcK",
+    },
   };
+   */
 
   return (
     <DoptProvider
-    /*
       userId="9083778098"
       apiKey="6ce6801dfe4a3c8d20ed410b6acddd4d017f1a851a93d6633a8bc5e27a63c753_55"
-      */
     >
       <div className={styles.container}>
         <Head>
@@ -35,33 +104,9 @@ export default function Home() {
           </p>
 
           <div className={styles.grid}>
-            <a href="https://nextjs.org/docs" className={styles.card}>
-              <h2>Documentation &rarr;</h2>
-              <p>Find in-depth information about Next.js features and API.</p>
-            </a>
-
-            <a href="https://nextjs.org/learn" className={styles.card}>
-              <h2>Learn &rarr;</h2>
-              <p>Learn about Next.js in an interactive course with quizzes!</p>
-            </a>
-
-            <a
-              href="https://github.com/vercel/next.js/tree/canary/examples"
-              className={styles.card}
-            >
-              <h2>Examples &rarr;</h2>
-              <p>Discover and deploy boilerplate example Next.js projects.</p>
-            </a>
-
-            <a
-              href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              className={styles.card}
-            >
-              <h2>Deploy &rarr;</h2>
-              <p>
-                Instantly deploy your Next.js site to a public URL with Vercel.
-              </p>
-            </a>
+            <DocumentationBlock />
+            <LearnBlock />
+            <FindYourNextFriendsWithDopt />
           </div>
         </main>
 
